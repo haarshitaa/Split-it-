@@ -6,7 +6,7 @@ export function Home() {
     return (
         <div>
             WELCOME TO SPLIT IT
-            <br/>
+            <br/> <br /><br /><br />
             <button onClick={() => navigate("/signup")}>
                 Get Started
             </button>
