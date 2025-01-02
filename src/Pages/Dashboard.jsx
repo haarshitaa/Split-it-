@@ -1,59 +1,88 @@
 import Button from '@mui/material/Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AddSplitBox } from '../Components/AddSplitBox';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 // import { MenuIcon } from '../Components/MenuIcon';
-import { IconMenu } from '../Components/IconMenu';
+// import { IconMenu } from '../Components/IconMenu';
+import { showToast } from '../utils/toast';
+import { TopBar } from '../Components/TopBar';
+import { Sidebar } from '../Components/SideBar';
+
 
 export function Dashboard() {
-    const [showbox, setShowbox] = useState(false);
-    const [sidebaropen, setsidebaropen] = useState(false);
 
+    const [showbox, setShowbox] = useState(false);
+    const [issidebaropen, setsidebaropen] = useState(false);
+    const [amount, setAmount] = useState(0);
+    const [participants,setParticipants] = useState([{ personName: "",share:0 }]);
     const navigate = useNavigate();
+
+    const token = localStorage.getItem('token'); 
+
+    useEffect(()=>{
+        if (!token) {
+            showToast('No token found! Redirecting to login.', 'error');
+            navigate('/login');
+  
+        }
+    },[navigate, token]);
+
+    
     const toggleButton = () => {
-        setShowbox(!showbox);
+        setShowbox((x)=> !x);
+        // console.log("this is button related");
     };
 
     const submit = async (formData) => {
         try {
-            const token = localStorage.getItem('token'); 
+            
+            if(!token) {
+                showToast('Authentication token missing!','error');
+                navigate('/login');
+                return;
+            }
  
-            if (!token) {
-                console.error('No token found!');
-                return;  
-            } 
-            console.log(token);
+             
+            // console.log(token);
             formData.amount = Number(formData.amount);
             formData.creatorId = formData.creatorId ;
+            if (formData.participants && formData.participants.length > 0) {
             formData.participants[0].share = Number(formData.participants[0].share);
+            }
             const response = await axios.post('http://127.0.0.1:8787/createsplit', formData, {
                 headers: {
                     Authorization: `Bearer ${token}`  
                 }
             });
-            console.log(response.data);
+            const {split,share } = response.data;
+            console.log('Split Deatils:',split);
+            console.log('Split Deatils:',share);
+            showToast('Split created successfully!', 'success');
         } catch (err) {
             console.error('Error submitting form: ', err.response ? err.response.data : err.message);
+            showToast('Failed to create split. Please try again.', 'error');
         }
     };
 
-    const hideSideBar = ()=>{
-        setsidebaropen((x)=>{!x});
-        console.log(x);
-        console.log(sidebaropen);
+    const toggleSideBar = ()=>{
+        setsidebaropen(!issidebaropen);
+        // console.log(x);
+        console.log(issidebaropen);
     }
 
     return (
-        <div onClick={hideSideBar}>
-            <div className='flex' >
-            <IconMenu setsidebaropen={setsidebaropen}/>
-            </div>
-            THIS IS DASHBOARD
-            <br /><br /><br />
-            <Button variant="contained" onClick={toggleButton}>Create Split</Button>
+        <div className='overflow-hidden w-screen h-screen'>
+            
+            <TopBar toggleSideBar={toggleSideBar} issidebaropen={issidebaropen} />
+            {issidebaropen && <Sidebar/>}
+            <div className={`bg-slate-400 w-full mt-14 h-full ${issidebaropen ? 'ml-64 bg-red-200':''}` }>
+            <Button variant="contained" onClick={toggleButton} className='mt-4'>Create Split</Button>
             {showbox && (
+                <div className="fixed inset-0 flex items-center justify-center z-100 bg-black bg-opacity-50">
+
                 <AddSplitBox 
+                    
                     description=""  
                     image=""  
                     currency=""  
@@ -62,8 +91,9 @@ export function Dashboard() {
                     participants={[{personName: "", share: 0}]} 
                     onSubmit={submit} 
                 />
+                </div>
             )}<br/> <br /><br /><br />
-            <Button variant="contained" onClick={()=>{navigate("/articles")}}>ARTICLES</Button>
+            </div>
         </div>
     );
 }
