@@ -44,12 +44,13 @@ export function Dashboard() {
             }
  
              
-            // console.log(token);
+            console.log(token);
             // formData.amount = Number(formData.amount);
             // formData.creatorId = formData.creatorId ;
             // if (formData.participants && formData.participants.length > 0) {
             // formData.participants[0].share = Number(formData.participants[0].share);
             // }
+            console.log('before');
             const response = await axios.post('http://127.0.0.1:8787/createsplit', formData, {
                 headers: {
                     Authorization: `Bearer ${token}`  
