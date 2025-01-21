@@ -6,6 +6,7 @@ import { SignIn } from './Pages/Signin';
 import { SignUp } from './Pages/SignUp';
 import { Dashboard } from './Pages/Dashboard';
 import { Article } from './Pages/Article';
+import {Setting} from './Pages/Setting';
 import './index.css' 
 
 function App() {
@@ -17,8 +18,9 @@ function App() {
       <Route path="/" element={<Home/>} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
-      <Route path="/dashboard" element={<Dashboard/>}></Route>
+      <Route path="/dashboard" element={<Dashboard/>}/>
       <Route path="/articles" element={<Article />} />
+      <Route path="/setting" element={<Setting />} />
       
     </Routes>
     </BrowserRouter>
