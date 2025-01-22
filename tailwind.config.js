@@ -28,7 +28,7 @@ export default {
       },
       width: {
         'custom': '350px', 
-        'xl': '48rem',     // Adds a class w-xl for 48rem
+        'xl': '46rem',     // Adds a class w-xl for 48rem
       },
     },
   },

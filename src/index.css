@@ -9,3 +9,10 @@ html, body, #root {
     padding: 0;
   }
   
+
+  .parisienne-regular {
+    font-family: "Parisienne", serif;
+    font-weight: 600;
+    font-style: normal;
+  }
+  
