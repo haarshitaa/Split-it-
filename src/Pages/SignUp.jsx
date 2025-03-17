@@ -43,31 +43,36 @@ export function SignUp() {
     const handleSubmit = async () => {
         if (name === "" || email === "" || password === "") {
             setError("Please fill all the credentials.");
-        } else {
-            setLoading(true);
-            try {
-                const response = await axios.post("http://127.0.0.1:8787/signup", {
-                    name,
-                    email,
-                    password
-                });
-
-                if(response.data.message === "Username already exists."){
-                    setError("This email is already registered.");
-                    setLoading(false);
-                    return;
-                }
-
-                localStorage.setItem("token", response.data.token);
-                navigate('/dashboard');
-            } catch (err) {
-                console.error("Error during signup", err);
+            return;
+        }
+    
+        setLoading(true);
+    
+        try {
+            const response = await axios.post("http://localhost:8787/signup", {
+                email,
+                name,
+                password
+            });
+    
+            localStorage.setItem("token", response.data.token);
+            navigate('/dashboard');
+    
+        } catch (err) {
+            console.error("Error during signup:", err);
+    
+            // Check if error response exists and contains the expected message
+            if (err.response && err.response.status === 400 && err.response.data.message) {
+                setError(err.response.data.message);
+            } else {
                 setError("An error occurred during signup.");
-            } finally {
-                setLoading(false);
             }
+    
+        } finally {
+            setLoading(false);
         }
     };
+    
 
     return (
         <>

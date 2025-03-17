@@ -8,6 +8,8 @@ import { Dashboard } from './Pages/Dashboard';
 import { Article } from './Pages/Article';
 import {Setting} from './Pages/Setting';
 import './index.css' 
+import { Friends } from './Pages/Friends';
+import { History } from './Pages/History';
 
 function App() {
 
@@ -20,8 +22,9 @@ function App() {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/dashboard" element={<Dashboard/>}/>
       <Route path="/articles" element={<Article />} />
+      <Route path="/friends" element={<Friends />} />
       <Route path="/setting" element={<Setting />} />
-      
+      <Route path="/history" element={<History />} />
     </Routes>
     </BrowserRouter>
       </div>

@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import { CreateSplitBox } from "./CreateSplitBox";
 
-export function Body({ friends }) {
+export function Body({ friends, children }) { 
     const [user, setUser] = useState(null);
-    const [isCreateSplitOpen, setIsCreateSplitOpen] = useState(false);
 
     useEffect(() => {
         // Retrieve and parse the stored user data
@@ -22,41 +20,13 @@ export function Body({ friends }) {
         }
     }, []);
 
-    const handleCreateSplitClick = () => {
-        setIsCreateSplitOpen(true);
-    }
-
     return (
-        <div
-            className="fixed top-16 left-28 right-3 bottom-5 z-50 bg-white rounded-tl-[30px] rounded-tr-[30px] rounded-bl-[30px] rounded-br-[30px] p-10 overflow-hidden"
+        <div className="fixed top-16 left-28 right-3 bottom-5 z-50 bg-white rounded-tl-[30px] rounded-tr-[30px] rounded-bl-[30px] rounded-br-[30px] p-10 overflow-hidden"
         >
-            <div className="flex">
-                <div className="h-72 border w-xl p-3 flex justify-between rounded-xl">
-                    <div className="pt-10">
-                        <p className="text-4xl font-bold text-black mb-5 parisienne-regular">
-                            Hi {user?.name || "Guest"}!
-                        </p>
-                    </div>
-                    <div>
-                        <img src="/assets/hellochar.png" className="h-60" alt="Hello" />
-                    </div>
-                </div>
-
-                <div className="h-16 w-44 border border-gray-300 rounded-2xl flex bg-gradient-to-r from-cyan-200 to-blue-200">
-                    <button className="text-xl m-auto text-gray-700 font-medium" onClick={handleCreateSplitClick}>
-                        CREATE SPLIT
-                    </button>
-                </div>
-            </div>
-
-            {isCreateSplitOpen && (
-                <CreateSplitBox 
-                    closeModal={() => setIsCreateSplitOpen(false)} 
-                    friends={friends}  
-                />
-            )}
+            {children ? children : <p>Welcome, {user?.name || "Guest"}!</p>}
         </div>
     );
 }
+
 
 
