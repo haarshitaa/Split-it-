@@ -4,7 +4,6 @@ export function Body({ friends, children }) {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        // Retrieve and parse the stored user data
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
             try {

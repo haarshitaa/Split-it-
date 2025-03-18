@@ -5,7 +5,8 @@ export function History() {
 
     return (
         <div>
-            <h1>hiiiisssss</h1>
+            <h1>HISTORY</h1>
+            
         </div>
     );
 }
