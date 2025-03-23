@@ -119,7 +119,7 @@ export function BarTop({ friends = [] }) {
                 <Avatar key={friend.id}>{getInitials(friend.name)}</Avatar>
               ))
             ) : (
-              <p className="text-white text-sm">No friends</p> // Fallback when no friends exist
+              <p className="text-white text-sm">No friends</p> 
             )}
           </AvatarGroup>
         </div>

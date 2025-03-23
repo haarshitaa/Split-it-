@@ -5,7 +5,7 @@ export function Setting() {
 
     return (
         <div>
-            
+            THIS IS SETTING PAGE
         </div>
     );
 }

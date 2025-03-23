@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
 
 
 
-export function Layout({ children }) {
+export function Layout({ children,user }) {
     const [friends,setFriends] = useState([]);
 
     useEffect(() => {
@@ -40,7 +40,7 @@ export function Layout({ children }) {
     return (
         <div className="bg-customBg h-screen w-full relative">
             <BarTop friends={friends} />
-            <BarSide />
+            <BarSide user={user} />
             <Body className="pl-[250px] pt-[60px]"> {/* Adjust padding for layout */}
                 {children}
             </Body>

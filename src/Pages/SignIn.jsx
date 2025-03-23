@@ -36,6 +36,7 @@ export function SignIn() {
         if (token) {
             navigate("/dashboard");
         }
+    
     }, [navigate]);
 
     const handleSubmit = async () => {
