@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export function Body({ friends, children }) { 
+export function Body({ children }) { 
     const [user, setUser] = useState(null);
 
     useEffect(() => {
@@ -23,6 +23,8 @@ export function Body({ friends, children }) {
         <div className="fixed top-16 left-28 right-3 bottom-5 z-50 bg-white rounded-tl-[30px] rounded-tr-[30px] rounded-bl-[30px] rounded-br-[30px] p-10 overflow-hidden"
         >
             {children ? children : <p>Welcome, {user?.name || "Guest"}!</p>}
+         
+
         </div>
     );
 }

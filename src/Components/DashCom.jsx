@@ -73,7 +73,7 @@ export function DashCom({ user }) {
         <div className="h-72 border w-full p-6 flex justify-between rounded-xl bg-gradient-to-r from-gray-50 to-gray-100 shadow-md">
           <div className="pt-10">
             <p className="text-4xl font-bold text-black mb-5">
-              Hi {user?.name || "Guest"}!
+              Hi {user || "Guest"}!
             </p>
             <p className="text-gray-600">Welcome back! Ready to manage your splits?</p>
           </div>

@@ -29,7 +29,7 @@ function SidebarItem({ label, icon, to }) {
 }
 
 export function BarSide({ user }) {
-  
+  console.log("from bar", user);
   const getInitial = (name) => (name ? name[0].toUpperCase() : "?");
 
   return (
@@ -78,7 +78,7 @@ export function BarSide({ user }) {
         {/* User Avatar */}
         <div className="flex flex-col items-center mt-10">
           <div className="border rounded-full h-16 w-16 mx-auto mt-28 flex items-center justify-center bg-gray-300">
-            <span className="text-3xl text-white">{getInitial(user?.name)}</span>
+            <span className="text-3xl text-white">{getInitial(user)}</span>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useMemo } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Layout } from '../Components/layout';
@@ -6,85 +6,66 @@ import { DashCom } from '../Components/DashCom';
 import { useNavigate } from "react-router-dom";
 
 // export function Dashboard() {
-//   const [friends, setFriends] = useState([]);
-//   const [token, setToken] = useState(localStorage.getItem("token"));  
-
-//   useEffect(() => {
-//       if (token) {
-//           async function fetchFriends() {
-//               try {
-//                   const response = await axios.get("http://127.0.0.1:8787/getallfriends", {
-//                       headers: {
-//                           Authorization: `Bearer ${token}`,
-//                       },
-//                   });
-
-//                   const data = Array.isArray(response.data) ? response.data : [];
-//                   console.log(data);  
-//                   setFriends(data);
-//               } catch (error) {
-//                   console.error("Error fetching friends:", error);
-//                   toast.error('Error fetching friends!');  
-//               }
-//           }
-
-//           fetchFriends();
-//       }
-//   }, [token]);
-
-//   return (
-//       <Layout friends={friends}>
-//           <DashCom />
-//       </Layout>
-//   );
-// }
-
-
-
-// export function Dashboard() {
 //     const navigate = useNavigate();
 //     const [friends, setFriends] = useState([]);
+//     const [user, setUser] = useState({ name: "Guest" }); // Store user details
 //     const [token, setToken] = useState(localStorage.getItem("token"));
 
 //     useEffect(() => {
 //         if (!token) {
-//             console.log("navigating to /signin")
-//             navigate("/signin"); // Redirect to login page
+//             console.log("navigating to /signin");
+//             navigate("/signin");
 //             return;
 //         }
 
-//         async function fetchFriends() {
+//         async function fetchUserData() {
 //             try {
-//                 const response = await axios.get("http://127.0.0.1:8787/getallfriends", {
+//                 const response = await axios.get("http://127.0.0.1:8787/getuser", {
 //                     headers: {
 //                         Authorization: `Bearer ${token}`,
 //                     },
 //                 });
 
-//                 const data = Array.isArray(response.data) ? response.data : [];
-//                 console.log(data);
-//                 setFriends(data);
+//                 if (response.data && response.data.name) {
+//                     setUser({ name: response.data.name });
+//                 }
+//             } catch (error) {
+//                 console.error("Error fetching user data:", error);
+//             }
+//         }
+
+//         async function fetchFriends() {
+//             try {
+//                 const response = await axios.get("http://127.0.0.1:8787/getallfriends", {
+//                     headers: { Authorization: `Bearer ${token}` },
+//                 });
+        
+//                 console.log("Friends API Response:", response.data); // Debugging step
+        
+//                 setFriends(Array.isArray(response.data) ? response.data : []);
 //             } catch (error) {
 //                 console.error("Error fetching friends:", error);
 //                 toast.error("Error fetching friends!");
 //             }
 //         }
+        
 
+//         fetchUserData();
 //         fetchFriends();
 //     }, [token, navigate]);
 
 //     return (
-//         <Layout friends={friends}>
-//             <DashCom />
+//         <Layout friends={friends} user={user}>
+//             <DashCom user={user} />
 //         </Layout>
 //     );
 // }
 
 
-export function Dashboard() {
+export function Dashboard({name}) {
     const navigate = useNavigate();
     const [friends, setFriends] = useState([]);
-    const [user, setUser] = useState({ name: "Guest" }); // Store user details
+    const [user, setUser] = useState({ name: "Guest" }); 
     const [token, setToken] = useState(localStorage.getItem("token"));
 
     useEffect(() => {
@@ -94,44 +75,50 @@ export function Dashboard() {
             return;
         }
 
-        async function fetchUserData() {
-            try {
-                const response = await axios.get("http://127.0.0.1:8787/getuser", {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
 
-                if (response.data && response.data.name) {
-                    setUser({ name: response.data.name });
-                }
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-            }
-        }
 
-        async function fetchFriends() {
-            try {
-                const response = await axios.get("http://127.0.0.1:8787/getallfriends", {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
-
-                setFriends(Array.isArray(response.data) ? response.data : []);
-            } catch (error) {
-                console.error("Error fetching friends:", error);
-                toast.error("Error fetching friends!");
-            }
-        }
-
-        fetchUserData();
-        fetchFriends();
     }, [token, navigate]);
 
     return (
-        <Layout friends={friends} user={user}>
-            <DashCom user={user} />
-        </Layout>
+        // <Layout user={user}>
+            <DashCom user={name} />
+        //  </Layout> 
     );
 }
+
+
+
+// export function Dashboard() {
+//     const navigate = useNavigate();
+//     const [user, setUser] = useState({ name: "Guest" });
+//     const [token, setToken] = useState(localStorage.getItem("token"));
+
+//     useEffect(() => {
+//         if (!token) {
+//             console.log("Navigating to /signin");
+//             navigate("/signin");
+//             return;
+//         }
+
+//         async function fetchUserData() {
+//             try {
+//                 const response = await axios.get("http://127.0.0.1:8787/getuser", {
+//                     headers: { Authorization: `Bearer ${token}` },
+//                 });
+
+//                 if (response.data && response.data.name) {
+//                     setUser({ name: response.data.name });
+//                 }
+//             } catch (error) {
+//                 console.error("Error fetching user data:", error);
+//             }
+//         }
+
+//         fetchUserData();
+//     }, [token, navigate]);
+
+//     // ✅ Use useMemo to prevent unnecessary re-renders of <Layout>
+//     const memoizedLayout = useMemo(() => <Layout user={user}><DashCom user={user} /></Layout>, [user]);
+
+//     return memoizedLayout;
+// }
