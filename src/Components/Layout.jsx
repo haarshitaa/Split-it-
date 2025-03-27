@@ -4,7 +4,6 @@ import { Body } from '../Components/Body';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import React, { memo, useRef } from "react";
-//import { useUser } from '../Context/UserContext';
 
 export const Layout = memo(({ user, children }) => {
     const [friends, setFriends] = useState([]);
@@ -81,7 +80,6 @@ export const Layout = memo(({ user, children }) => {
             <BarTop friends={friends} />
             <BarSide user={name} />
             <Body className="pl-[250px] pt-[60px]">
-                
                 {React.cloneElement(children,{name})}
             </Body>
         </div>
